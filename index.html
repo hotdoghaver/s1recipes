@@ -640,6 +640,7 @@
     }
 });
 
+
             // Event listeners
             document.getElementById('addStrainBtn').addEventListener('click', openAddStrainModal);
             if (addStrainBtnEmpty) {
@@ -746,15 +747,21 @@
 
 
         // Function to select a strain
-        function selectStrain(index) {
-            currentStrainIndex = index;
+        function selectStrain(index) {            currentStrainIndex = index;
             renderStrainsList(); // Update the list to show the active state
             renderStrainDetails(strains[index]);
         }
+        
         function deleteStrain(index) {
-            strainToDeleteIndex = index;
-            document.getElementById('confirmDeleteModal').style.display = 'flex';
-        }
+    const password = prompt("Enter password to delete this strain:");
+    if (password !== DELETE_PASSWORD) {
+        alert("Incorrect password. Deletion cancelled.");
+        return;
+    }
+
+    strainToDeleteIndex = index;
+    document.getElementById('confirmDeleteModal').style.display = 'flex';
+}
 
 
         // Function to render strain details
@@ -1007,6 +1014,7 @@
 
         // Initialize the app
         init();
+        const DELETE_PASSWORD = 'bigblackniggaballs223'; // Replace with your actual password
     </script>
 </body>
 
