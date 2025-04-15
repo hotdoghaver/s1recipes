@@ -578,6 +578,7 @@
         const strainsCollection = db.collection('strains');
         
         // Global variables
+        let strainToDeleteIndex = null;
         let strains = [];
         let currentStrainIndex = null;
 
@@ -718,33 +719,16 @@
                     <button class="delete-strain-btn" data-index="${index}" title="Delete Strain" style="background:none;border:none;color:var(--danger);font-size:18px;cursor:pointer;">🗑️</button>
                 `;
                 strainDiv.querySelector('span').addEventListener('click', () => selectStrain(index));
-                strainDiv.querySelector('.delete-strain-btn').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    let strainToDeleteIndex = null;
-                    function deleteStrain(index) {
-                    strainToDeleteIndex = index;
-                  document.getElementById('confirmDeleteModal').style.display = 'flex';
-        }
+                sstrainDiv.querySelector('.delete-strain-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteStrain(index);
+             });
 
-                });
                 strainsListEl.appendChild(strainDiv);
             });
         }
 
-        <!-- Confirm Delete Modal -->
-<div class="modal" id="confirmDeleteModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Confirm Delete</h2>
-      <button class="close-modal" onclick="closeModal()">&times;</button>
-    </div>
-    <p>Are you sure you want to delete this strain? This action cannot be undone.</p>
-    <div class="modal-footer">
-      <button onclick="closeModal()" class="close-modal-btn">Cancel</button>
-      <button id="confirmDeleteBtn" style="background-color: var(--danger);">Yes, Delete</button>
-    </div>
-  </div>
-</div>
+
 
 
         // Function to select a strain
@@ -753,6 +737,11 @@
             renderStrainsList(); // Update the list to show the active state
             renderStrainDetails(strains[index]);
         }
+        function deleteStrain(index) {
+            strainToDeleteIndex = index;
+            document.getElementById('confirmDeleteModal').style.display = 'flex';
+        }
+
 
         // Function to render strain details
         function renderStrainDetails(strain) {
