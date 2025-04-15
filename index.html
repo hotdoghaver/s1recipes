@@ -559,8 +559,6 @@
     <div id="status-message"></div>
 
     <script>
-        import { initializeApp } from "firebase/app";
-        import { getAnalytics } from "firebase/analytics";
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         // Initialize Firebase
@@ -576,9 +574,9 @@
         
         // Initialize Firebase App
         firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
         
         // Get a reference to the Firestore database
-        const db = firebase.firestore();
         const strainsCollection = db.collection('strains');
         
         // Global variables
