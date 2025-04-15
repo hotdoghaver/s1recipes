@@ -1,3 +1,23 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const closeButtons = document.querySelectorAll('.close-modal');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', closeModal);
+    });
+});
+document.body.addEventListener('click', (event) => {
+    if (event.target.matches('.close-modal')) {
+        closeModal();
+    }
+});
+
+     
+     
+     
+     
+     
+     
+     
+     
      // Initialize Firebase
      const firebaseConfig = {
                         apiKey: "AIzaSyC3Mxzg1SAOZnNL2mQM5XAlC8xa_C6Icc8",
@@ -319,11 +339,12 @@
                 }
         
                 function closeModal() {
-            addStrainModal.style.display = 'none';
-            addStepModal.style.display = 'none';
-            editProfitModal.style.display = 'none';
-            document.getElementById('confirmDeleteModal').style.display = 'none'; // <== Add this line
-        }
+                    const modals = document.querySelectorAll('.modal');
+                    modals.forEach(modal => {
+                        modal.style.display = 'none';
+                    });
+                }
+                
         
         
                 // Form Handlers
