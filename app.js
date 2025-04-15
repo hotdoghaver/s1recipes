@@ -344,7 +344,6 @@ document.body.addEventListener('click', (event) => {
                         modal.style.display = 'none';
                     });
                 }
-                
         
         
                 // Form Handlers
