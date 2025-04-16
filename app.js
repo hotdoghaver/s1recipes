@@ -244,7 +244,7 @@ document.body.addEventListener('click', (event) => {
                                 <button class="edit-profit" data-strain-index="${currentStrainIndex}">Edit</button>
                             </div>
                         </div>
-                        <div class="strain-description">${strain.description || 'No description provided.'}</div>
+                        <div class="strain-description">${strain.description || 'no effects provided!'}</div>
                         
                         ${strain.tags ? `<div class="tags-container">${strain.tags.split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join('')}</div>` : ''}
                         
