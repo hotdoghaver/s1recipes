@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>crazy niga 2 inc. recipes</title>
     <!-- Firebase SDK -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.2/firebase-app-compat.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.2/firebase-firestore-compat.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="styles.css?v=2">
 </head>
@@ -20,7 +20,9 @@
 
     <div class="container">
         <div class="strain-list">
-            <h2>crazy niga 3 inc. strains</h2>
+            <h2>crazy niga 3 inc. 
+                
+            </h2>
             <div class="sort-controls">
                 <label for="sortByProfit">sort:</label>
                 <select id="sortByProfit">
@@ -150,7 +152,28 @@
           </div>
         </div>
       </div>
-      <script src="app.js"></script>
-</body>
+      <!-- Password Confirmation Modal -->
 
+
+      <div class="modal" id="passwordModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Enter Password</h2>
+        <button class="close-modal" onclick="closeModal()">&times;</button>
+      </div>
+      <form id="passwordForm">
+        <div class="form-group">
+          <label for="deletePassword">Password</label>
+          <input type="password" id="deletePassword" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="close-modal-btn">Cancel</button>
+          <button type="submit">Confirm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+</body>
+<script src="app.js" defer></script>
 </html>
