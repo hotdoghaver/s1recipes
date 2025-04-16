@@ -87,6 +87,7 @@ document.body.addEventListener('click', (event) => {
         
         
                     // Event listeners
+                    document.getElementById('sortByProfit')?.addEventListener('change', renderSortedStrainsList);
                     document.getElementById('addStrainBtn').addEventListener('click', openAddStrainModal);
                     if (addStrainBtnEmpty) {
                         addStrainBtnEmpty.addEventListener('click', openAddStrainModal);
@@ -167,37 +168,61 @@ document.body.addEventListener('click', (event) => {
                         strainsListEl.innerHTML = '<p>Error loading strains. Please try again.</p>';
                     }
                 }
+               
+                await strainsCollection.get().then(snapshot => {
+                    strains = snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                    renderSortedStrainsList();
+                });
+                
         
                 // Function to render the list of strains
-                function renderStrainsList() {
+                function renderStrainsList(strainArray = strains) {
                     strainsListEl.innerHTML = '';
-                    
-                    if (strains.length === 0) {
+                
+                    if (strainArray.length === 0) {
                         strainsListEl.innerHTML = '<p>No strains found.</p>';
                         return;
                     }
-                    
-                    strains.forEach((strain, index) => {
+                
+                    strainArray.forEach((strain, index) => {
                         const strainDiv = document.createElement('div');
-                        strainDiv.className = 'strain-item' + (index === currentStrainIndex ? ' active' : '');
-                        strainDiv.innerHTML = `
-                        <div class="strain-main">
-                            <span class="strain-name">${strain.name}</span>
-                            <span class="strain-profit">$${strain.profit?.toFixed(2) || '0.00'}</span>
-                        </div>
-                        <button class="delete-strain-btn" data-index="${index}" title="Delete Strain" style="background:none;border:none;color:var(--danger);font-size:18px;cursor:pointer;">🗑️</button>
-                    `;                   
-                        strainDiv.querySelector('span').addEventListener('click', () => selectStrain(index));
+                        strainDiv.className = 'strain-item';
+                            if (index === currentStrainIndex) strainDiv.classList.add('active');
+                            if (strain.profit < 70) strainDiv.classList.add('low-profit');
+                            strainDiv.innerHTML = `
+                            <div class="strain-main">
+                                <span class="strain-name">${strain.name}</span>
+                                <span class="strain-profit profit-badge ${profitClass}">$${strain.profit?.toFixed(2) || '0.00'}</span>
+                            </div>
+                            <button class="delete-strain-btn" data-index="${index}" title="Delete Strain" style="background:none;border:none;color:var(--danger);font-size:18px;cursor:pointer;">🗑️</button>
+                        `;                        
+                        strainDiv.addEventListener('click', () => selectStrain(index));
                         strainDiv.querySelector('.delete-strain-btn').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        deleteStrain(index);
-                     });
-        
+                            e.stopPropagation();
+                            deleteStrain(index);
+                        });
                         strainsListEl.appendChild(strainDiv);
                     });
+                }     
+                
+                let profitClass = 'profit-mid';
+                if (strain.profit < 70) {
+                    profitClass = 'profit-low';
+                } else if (strain.profit >= 200) {
+                        profitClass = 'profit-high';
                 }
-        
-        
+                
+
+                function renderSortedStrainsList() {
+                    const sortOrder = document.getElementById('sortByProfit')?.value || 'desc';
+                    const sortedStrains = [...strains].sort((a, b) => {
+                        return sortOrder === 'asc' ? a.profit - b.profit : b.profit - a.profit;
+                    });
+                    renderStrainsList(sortedStrains);
+                }                
         
         
                 // Function to select a strain

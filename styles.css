@@ -386,6 +386,80 @@ textarea {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.sort-controls label {
+    font-size: 0.9rem;
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.sort-controls select {
+    background-color: var(--primary);
+    color: var(--text);
+    border: 1px solid var(--accent);
+    padding: 6px 10px;
+    border-radius: 4px;
+}
+
+.strain-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.strain-name {
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--text);
+}
+
+.strain-profit {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--success);
+    background-color: rgba(67, 160, 71, 0.15); /* greenish bg */
+    padding: 2px 6px;
+    border-radius: 4px;
+    align-self: flex-start;
+    margin-top: 4px;
+}
+
+.strain-item.low-profit {
+    box-shadow: 0 0 8px 2px var(--danger);
+    border: 1px solid var(--danger);
+}
+
+.profit-badge {
+    font-size: 0.85rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+    align-self: flex-start;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.profit-low {
+    color: var(--danger);
+    background-color: rgba(244, 67, 54, 0.15);
+}
+
+.profit-mid {
+    color: var(--success);
+    background-color: rgba(67, 160, 71, 0.15);
+}
+
+.profit-high {
+    color: #ffd700;
+    background-color: rgba(255, 215, 0, 0.15);
+}
+
 
 #status-message {
     position: fixed;
