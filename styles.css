@@ -47,12 +47,17 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-    opacity: 0.9;
+    background-color: #353535; /* a little darker than var(--primary) */
     transform: translateY(-2px);
+}
+
+button:active {
+    background-color: #1f1f1f; /* even darker on press */
+    transform: translateY(0);
 }
 
 button:disabled {
@@ -91,13 +96,13 @@ button:disabled {
 }
 
 .strain-item:hover {
-    background-color: var(--accent);
-    color: var(--primary);
+    background-color: #353535; /* darker than primary */
+    color: var(--text); /* keep text visible */
 }
 
 .strain-item.active {
-    background-color: var(--accent);
-    color: var(--primary);
+    background-color: #3a3a3a;
+    color: var(--text);
     font-weight: bold;
 }
 
@@ -433,6 +438,11 @@ textarea {
 .strain-item.low-profit {
     box-shadow: 0 0 8px 2px var(--danger);
     border: 1px solid var(--danger);
+}
+
+.strain-item.high-profit {
+    box-shadow: 0 0 8px 2px var(--success);
+    border: 1px solid var(--success);
 }
 
 .profit-badge {

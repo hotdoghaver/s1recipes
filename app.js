@@ -138,21 +138,15 @@ document.body.addEventListener('click', (event) => {
                 async function loadStrains() {
                     try {
                         strainsListEl.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
-                        
+                
                         const snapshot = await strainsCollection.get();
-                        strains = [];
-                        const sortOrder = document.getElementById('sortByProfit')?.value || 'desc';
-                        strains.sort((a, b) => sortOrder === 'asc' ? a.profit - b.profit : b.profit - a.profit);
-                        
-                        snapshot.forEach(doc => {
-                            strains.push({
-                                id: doc.id,
-                                ...doc.data()
-                            });
-                        });
-                        
-                        renderStrainsList();
-                        
+                        strains = snapshot.docs.map(doc => ({
+                            id: doc.id,
+                            ...doc.data()
+                        }));
+                
+                        renderSortedStrainsList();
+                
                         if (strains.length === 0) {
                             strainDetailsEl.innerHTML = `
                                 <div class="empty-state">
@@ -167,16 +161,7 @@ document.body.addEventListener('click', (event) => {
                         showStatusMessage("Failed to load strains: " + error.message, "error");
                         strainsListEl.innerHTML = '<p>Error loading strains. Please try again.</p>';
                     }
-                }
-               
-                await strainsCollection.get().then(snapshot => {
-                    strains = snapshot.docs.map(doc => ({
-                        id: doc.id,
-                        ...doc.data()
-                    }));
-                    renderSortedStrainsList();
-                });
-                
+                }                
         
                 // Function to render the list of strains
                 function renderStrainsList(strainArray = strains) {
@@ -190,31 +175,37 @@ document.body.addEventListener('click', (event) => {
                     strainArray.forEach((strain, index) => {
                         const strainDiv = document.createElement('div');
                         strainDiv.className = 'strain-item';
-                            if (index === currentStrainIndex) strainDiv.classList.add('active');
-                            if (strain.profit < 70) strainDiv.classList.add('low-profit');
-                            strainDiv.innerHTML = `
+                        if (index === currentStrainIndex) strainDiv.classList.add('active');
+                        if (strain.profit < 70) {
+                            strainDiv.classList.add('low-profit');
+                        } else if (strain.profit > 120) {
+                            strainDiv.classList.add('high-profit');
+                        }                        
+                
+                        let profitClass = 'profit-mid';
+                        if (strain.profit < 70) {
+                            profitClass = 'profit-low';
+                        } else if (strain.profit >= 200) {
+                            profitClass = 'profit-high';
+                        }
+                
+                        strainDiv.innerHTML = `
                             <div class="strain-main">
                                 <span class="strain-name">${strain.name}</span>
                                 <span class="strain-profit profit-badge ${profitClass}">$${strain.profit?.toFixed(2) || '0.00'}</span>
                             </div>
                             <button class="delete-strain-btn" data-index="${index}" title="Delete Strain" style="background:none;border:none;color:var(--danger);font-size:18px;cursor:pointer;">🗑️</button>
-                        `;                        
+                        `;
+                
                         strainDiv.addEventListener('click', () => selectStrain(index));
                         strainDiv.querySelector('.delete-strain-btn').addEventListener('click', (e) => {
                             e.stopPropagation();
                             deleteStrain(index);
                         });
+                
                         strainsListEl.appendChild(strainDiv);
                     });
-                }     
-                
-                let profitClass = 'profit-mid';
-                if (strain.profit < 70) {
-                    profitClass = 'profit-low';
-                } else if (strain.profit >= 200) {
-                        profitClass = 'profit-high';
-                }
-                
+                }            
 
                 function renderSortedStrainsList() {
                     const sortOrder = document.getElementById('sortByProfit')?.value || 'desc';
@@ -493,4 +484,4 @@ document.body.addEventListener('click', (event) => {
         
                 // Initialize the app
                 init();
-                const DELETE_PASSWORD = 'bigblackniggaballs223'; // Replace with your actual password
+                const DELETE_PASSWORD = 'f'; // Replace with your actual password
