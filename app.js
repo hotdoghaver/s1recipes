@@ -94,6 +94,10 @@ document.body.addEventListener('click', (event) => {
                     addStrainForm.addEventListener('submit', saveStrain);
                     addStepForm.addEventListener('submit', saveStep);
                     editProfitForm.addEventListener('submit', updateProfit);
+                    const sortDropdown = document.getElementById('sortByProfit');
+                        if (sortDropdown) {
+                         sortDropdown.addEventListener('change', loadStrains);
+                    }
         
                     // Modal close buttons
                     document.querySelectorAll('.close-modal').forEach(btn => {
@@ -136,6 +140,8 @@ document.body.addEventListener('click', (event) => {
                         
                         const snapshot = await strainsCollection.get();
                         strains = [];
+                        const sortOrder = document.getElementById('sortByProfit')?.value || 'desc';
+                        strains.sort((a, b) => sortOrder === 'asc' ? a.profit - b.profit : b.profit - a.profit);
                         
                         snapshot.forEach(doc => {
                             strains.push({
@@ -175,9 +181,12 @@ document.body.addEventListener('click', (event) => {
                         const strainDiv = document.createElement('div');
                         strainDiv.className = 'strain-item' + (index === currentStrainIndex ? ' active' : '');
                         strainDiv.innerHTML = `
-                            <span>${strain.name}</span>
-                            <button class="delete-strain-btn" data-index="${index}" title="Delete Strain" style="background:none;border:none;color:var(--danger);font-size:18px;cursor:pointer;">🗑️</button>
-                        `;
+                        <div class="strain-main">
+                            <span class="strain-name">${strain.name}</span>
+                            <span class="strain-profit">$${strain.profit?.toFixed(2) || '0.00'}</span>
+                        </div>
+                        <button class="delete-strain-btn" data-index="${index}" title="Delete Strain" style="background:none;border:none;color:var(--danger);font-size:18px;cursor:pointer;">🗑️</button>
+                    `;                   
                         strainDiv.querySelector('span').addEventListener('click', () => selectStrain(index));
                         strainDiv.querySelector('.delete-strain-btn').addEventListener('click', (e) => {
                         e.stopPropagation();

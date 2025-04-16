@@ -20,7 +20,14 @@
     <div class="container">
         <div class="strain-list">
             <h2>Strains</h2>
-            <div id="strainsList">
+            <div class="sort-controls">
+                <label for="sortByProfit">Sort:</label>
+                <select id="sortByProfit">
+                    <option value="desc">Profit: High to Low</option>
+                    <option value="asc">Profit: Low to High</option>
+                </select>
+            </div>            
+            <div id="strainsList">            
                 <div class="loading">
                     <div class="loading-spinner"></div>
                 </div>
